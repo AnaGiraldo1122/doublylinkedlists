@@ -7,12 +7,12 @@ do
 {
     Console.Clear();
     Console.WriteLine("=== MENÚ LISTA DOBLEMENTE LIGADA ===");
-    Console.WriteLine("1. Adicionar ");
+    Console.WriteLine("1. Adicionar");
     Console.WriteLine("2. Mostrar hacia adelante");
     Console.WriteLine("3. Mostrar hacia atrás");
     Console.WriteLine("4. Ordenar descendentemente");
     Console.WriteLine("5. Mostrar las modas");
-    Console.WriteLine("6. Mostrar Grafico");
+    Console.WriteLine("6. Mostrar Gráfico");
     Console.WriteLine("7. Existe un elemento");
     Console.WriteLine("8. Eliminar una ocurrencia");
     Console.WriteLine("9. Eliminar todas las ocurrencias");
@@ -67,6 +67,11 @@ do
                 }
                 break;
 
+            case 6:
+                Console.WriteLine("\n--- Gráfico de Ocurrencias ---");
+                list.PrintOccurrencesGraph();
+                break;
+
             case 7:
                 Console.Write("Ingrese el valor que desea buscar (palabra o número): ");
                 string? valorBuscar = Console.ReadLine();
@@ -99,18 +104,40 @@ do
                     Console.WriteLine("\nEl valor no puede estar vacío.");
                 }
                 break;
-    else
-                {
-                    Console.WriteLine("\nPor favor, ingrese un número válido.");
-                }
 
-                if (opcion != 0)
+            case 9:
+                Console.Write("Ingrese el valor del cual desea eliminar TODAS las ocurrencias: ");
+                string? valorEliminarTodo = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(valorEliminarTodo))
                 {
-                    Console.WriteLine("\nPresione cualquier tecla para continuar...");
-                    Console.ReadKey();
+                    list.RemoveAll(valorEliminarTodo);
+                    Console.WriteLine($"\nSe ha procesado la eliminación de todas las ocurrencias de '{valorEliminarTodo}'.");
                 }
+                else
+                {
+                    Console.WriteLine("\nEl valor no puede estar vacío.");
+                }
+                break;
+
+            case 0:
+                Console.WriteLine("\n¡Saliendo del programa. Hasta luego!");
+                break;
+
+            default:
+                Console.WriteLine("\nOpción no válida. Intente de nuevo.");
+                break;
         }
-        while (opcion != 0)
+    }
+    else
+    {
+        Console.WriteLine("\nPor favor, ingrese un número válido.");
+    }
 
-            }
-}
+    if (opcion != 0)
+    {
+        Console.WriteLine("\nPresione cualquier tecla para continuar...");
+        Console.ReadKey();
+    }
+
+} while (opcion != 0);

@@ -229,4 +229,79 @@ public class DoublyLinkedList<T> where T : IComparable<T>
 
         return modes;
     }
+
+    public void PrintOccurrencesGraph()
+    {
+        if (_head == null)
+        {
+            Console.WriteLine("La lista está vacía, no hay elementos para graficar.");
+            return;
+        }
+
+        var frequencies = new Dictionary<T, int>();
+        var current = _head;
+
+        while (current != null)
+        {
+            if (current.Data != null)
+            {
+                if (frequencies.ContainsKey(current.Data))
+                {
+                    frequencies[current.Data]++;
+                }
+                else
+                {
+                    frequencies[current.Data] = 1;
+                }
+            }
+            current = current.Next;
+        }
+
+        Console.WriteLine("\n--- Gráfico de Ocurrencias ---");
+        foreach (var pair in frequencies)
+        {
+
+            string barras = new string('*', pair.Value);
+            Console.WriteLine($"{pair.Key,-12} | {barras} ({pair.Value})");
+        }
+    }
+
+    public void RemoveAll(T data)
+    {
+        if (_head == null)
+        {
+            Console.WriteLine("Lista de ocurrencias vacía");
+            return;
+        }
+
+        var current = _head;
+
+        while (current != null)
+        {
+            var nextNode = current.Next;
+
+            if (current.Data!.CompareTo(data) == 0)
+            {
+                if (current == _head)
+                {
+                    _head = _head.Next;
+                    if (_head != null) _head.Prev = null;
+                    else _tail = null;
+                }
+
+                else if (current == _tail)
+                {
+                    _tail = _tail.Prev;
+                    if (_tail != null) _tail.Next = null;
+                }
+
+                else
+                {
+                    current.Prev!.Next = current.Next;
+                    current.Next!.Prev = current.Prev;
+                }
+            }
+            current = nextNode;
+        }
+    }
 }
