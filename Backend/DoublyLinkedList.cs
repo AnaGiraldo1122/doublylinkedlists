@@ -4,11 +4,14 @@ public class DoublyLinkedList<T> where T : IComparable<T>
 {
     private DoubleNode<T>? _head;
     private DoubleNode<T>? _tail;
+    private bool _ascending = true;
+
+    private int Compare(T a, T b) => _ascending ? a.CompareTo(b) : b.CompareTo(a);
 
     public DoublyLinkedList()
     {
-        _head = null; // This line can be removed
-        _tail = null; // This line can be removed
+        _head = null;
+        _tail = null;
     }
 
     public void InsertAtBeginning(T data)
@@ -60,7 +63,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         {
             if (current.Data!.Equals(data))
             {
-
                 if (current == _head && current == _tail)
                 {
                     _head = null;
@@ -114,7 +116,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         return $"{output} null";
     }
 
-
     public void AddOrdered(T data)
     {
         var newNode = new DoubleNode<T>(data);
@@ -126,7 +127,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             return;
         }
 
-        if (newNode.Data!.CompareTo(_head.Data) < 0)
+        if (Compare(newNode.Data!, _head.Data!) < 0)
         {
             newNode.Next = _head;
             _head.Prev = newNode;
@@ -135,7 +136,7 @@ public class DoublyLinkedList<T> where T : IComparable<T>
         }
 
         var current = _head;
-        while (current != null && newNode.Data!.CompareTo(current.Data) >= 0)
+        while (current != null && Compare(newNode.Data!, current.Data!) >= 0)
         {
             current = current.Next;
         }
@@ -160,6 +161,9 @@ public class DoublyLinkedList<T> where T : IComparable<T>
 
     public void SortDescending()
     {
+        if (!_ascending) return;
+        _ascending = false;
+
         if (_head == null || _head == _tail)
         {
             return;
@@ -167,7 +171,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
 
         var current = _head;
         DoubleNode<T>? temp = null;
-
 
         while (current != null)
         {
@@ -256,9 +259,10 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             }
             current = current.Next;
         }
+
+        Console.WriteLine("\n--- Gráfico de Ocurrencias ---");
         foreach (var pair in frequencies)
         {
-
             string barras = new string('*', pair.Value);
             Console.WriteLine($"{pair.Key,-12} | {barras} ({pair.Value})");
         }
@@ -286,13 +290,11 @@ public class DoublyLinkedList<T> where T : IComparable<T>
                     if (_head != null) _head.Prev = null;
                     else _tail = null;
                 }
-
                 else if (current == _tail)
                 {
                     _tail = _tail.Prev;
                     if (_tail != null) _tail.Next = null;
                 }
-
                 else
                 {
                     current.Prev!.Next = current.Next;
