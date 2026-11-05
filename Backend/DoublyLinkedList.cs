@@ -256,8 +256,6 @@ public class DoublyLinkedList<T> where T : IComparable<T>
             }
             current = current.Next;
         }
-
-        Console.WriteLine("\n--- Gráfico de Ocurrencias ---");
         foreach (var pair in frequencies)
         {
 
